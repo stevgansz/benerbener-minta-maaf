@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maafin Stev ya Cissa... 🌧️</title>
+
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(to bottom, #141e30 0%, #243b55 100%);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  overflow:hidden;
+  color: #333;
+}
+
+/* Efek Vignette */
+.vignette {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  box-shadow: inset 0 0 150px rgba(0,0,0,0.85);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Efek Hujan */
+.rain {
+  position: absolute;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  top: -10px;
+  animation: fall linear infinite;
+  z-index: 0;
+}
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.card{
+  width:90%;
+  max-width:380px;
+  background: rgba(255, 255, 255, 0.92);
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 15px 30px rgba(0,0,0,.6);
+  text-align:center;
+  transition:all .5s ease;
+  animation:fadeIn .8s ease;
+  z-index: 2;
+  position: relative;
+  /* Posisi kotak agak ke atas */
+  margin-bottom: 12vh; 
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+.slide-out{
+  opacity:0;
+  transform:translateX(-50px);
+}
+.slide-in{
+  animation:slideIn .5s ease;
+}
+@keyframes slideIn{
+  from{opacity:0; transform:translateX(50px);}
+  to{opacity:1; transform:translateX(0);}
+}
+
+.envelope{
+  width:150px;
+  height:100px;
+  background:#e2e8f0;
+  margin:20px auto;
+  position:relative;
+  border-radius:10px;
+  cursor:pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.flap{
+  position:absolute;
+  width:100%;
+  height:50px;
+  background:#475b96;
+  top:0;
+  transform-origin:top;
+  transition:.6s;
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+}
+.envelope.open .flap{
+  transform:rotateX(180deg);
+}
+
+.toggle{
+  width:70px;
+  height:35px;
+  background:#ccc;
+  border-radius:20px;
+  margin:20px auto;
+  position:relative;
+  cursor:pointer;
+  transition:.4s;
+}
+.circle{
+  width:30px;
+  height:30px;
+  background:white;
+  border-radius:50%;
+  position:absolute;
+  top:2.5px;
+  left:3px;
+  transition:.4s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.toggle.active{
+  background:#475b96;
+}
+.toggle.active .circle{
+  left:37px;
+}
+
+button{
+  margin:6px;
+  padding:10px 18px;
+  border:none;
+  border-radius:20px;
+  background:#475b96;
+  color:white;
+  font-weight: 500;
+  cursor:pointer;
+  transition:.2s;
+}
+button:hover{
+  transform:scale(1.05);
+  background:#364675;
+}
+
+.pulse-btn {
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(71, 91, 150, 0.5); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(71, 91, 150, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(71, 91, 150, 0); }
+}
+
+input{
+  padding:10px;
+  width:80%;
+  border-radius:15px;
+  border:1px solid #ccc;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.letters{
+  display:flex;
+  justify-content:center;
+  flex-wrap: wrap; /* Agar huruf panjang tidak off-screen */
+  gap:8px;
+  margin:15px auto;
+  max-width: 280px;
+}
+.letter{
+  width:40px;
+  height:40px;
+  background:#475b96;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:8px;
+  font-weight: bold;
+  cursor:pointer;
+}
+
+.romantic-text{
+  font-size:15.5px;
+  line-height: 1.6;
+  margin:15px 0;
+  color: #333;
+  min-height: 50px;
+}
+
+/* Efek Kursor Mengetik */
+.typing-cursor::after {
+  content: '|';
+  animation: blink 0.7s infinite;
+  color: #475b96;
+  font-weight: bold;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.valentine-buttons{
+  position:relative;
+  height:120px;
+  margin-top: 20px;
+}
+#noBtn{
+  position:absolute;
+  background: #ff6b6b;
+}
+
+.glow{
+  position:absolute;
+  width:12px;
+  height:12px;
+  background:#fff;
+  border-radius:50%;
+  box-shadow: 0 0 15px #f1c40f, 0 0 30px #f1c40f;
+  animation:floatUp 3s ease-in forwards;
+  z-index: 3;
+}
+@keyframes floatUp{
+  to{transform:translateY(-600px);opacity:0;}
+}
+</style>
+</head>
+<body>
+
+<div class="vignette"></div>
+
+<div class="card" id="card">
+  <h2>Hai Cissa... 🌧️</h2>
+  <p>Ada pesan dari Stev, maafin ya...</p>
+  <div class="envelope" onclick="openLetter()" id="env">
+    <div class="flap"></div>
+  </div>
+</div>
+
+<audio id="bgm" loop>
+  <source src="https://github.com/stevgansz/maafin/raw/refs/heads/main/videoplayback.webm"> 
+</audio>
+
+<script>
+
+/* Efek Hujan (Raindrops) */
+setInterval(()=>{
+  const r = document.createElement("div");
+  r.className = "rain";
+  r.style.left = Math.random() * 100 + "vw";
+  r.style.height = (Math.random() * 30 + 10) + "px";
+  r.style.animationDuration = (Math.random() * 0.8 + 0.4) + "s";
+  r.style.filter = `blur(${Math.random() * 2}px)`;
+  document.body.appendChild(r);
+  setTimeout(()=>r.remove(), 1500);
+}, 25);
+
+function transition(content){
+  const card=document.getElementById("card");
+  card.classList.add("slide-out");
+  setTimeout(()=>{
+    card.innerHTML=content;
+    card.classList.remove("slide-out");
+    card.classList.add("slide-in");
+  },300);
+}
+
+function openLetter(){
+  document.getElementById("env").classList.add("open");
+  setTimeout(()=>{
+    transition(`
+      <h3>Buka pesannya? 🥺</h3>
+      <div class="toggle" onclick="startGame()" id="toggle">
+        <div class="circle"></div>
+      </div>
+      <p id="status" style="font-size:14px; color:#666;">Ketuk untuk menyalakan</p>
+    `);
+  },700);
+}
+
+function startGame(){
+  document.getElementById("toggle").classList.add("active");
+  document.getElementById("status").innerText="Terbuka...";
+  document.getElementById("bgm").play();
+  setTimeout(startMCQ,800);
+}
+
+/* MCQ */
+let step=0;
+const mcq=[
+{q:"Siapa yang paling nyesel dan merasa bersalah sekarang?",options:["Stev","Cissa","Gatau"],correct:"Stev"},
+{q:"Stev tanpa Cissa rasanya...",options:["Hampa","Biasa aja","Senang"],correct:"Hampa"},
+{q:"Masih ada kesempatan buat Stev?",options:["Ada","Nggak ada","..."],correct:"Ada"}
+];
+
+function startMCQ(){
+  if(step<mcq.length){
+    const g=mcq[step];
+    transition(`
+      <h3 style="margin-bottom:20px; font-size: 18px;">${g.q}</h3>
+      ${g.options.map(o=>`<button onclick="checkMCQ('${o}')">${o}</button>`).join("")}
+      <p id="msg" style="margin-top:15px; color:#ff6b6b; font-size:14px;"></p>
+    `);
+  }else{
+    mulaiSusunKata1();
+  }
+}
+
+function checkMCQ(ans){
+  if(ans===mcq[step].correct){
+    step++;
+    setTimeout(startMCQ,400);
+  }else{
+    document.getElementById("msg").innerText="Pilih yang bener dong ihh... 🥺";
+  }
+}
+
+/* SISTEM SUSUN KATA DINAMIS */
+let currentWord = "";
+let selected = "";
+let onKataBerhasil = null;
+
+function mulaiSusunKata1() {
+  susunKataTemplate("MAAFIN", "Susun kata ini buat Stev 🥀", mulaiSusunKata2);
+}
+
+function mulaiSusunKata2() {
+  susunKataTemplate("MONACISSA", "Sekarang susun nama cewek yang paling Stev sayang ❤️", romanticScene);
+}
+
+function susunKataTemplate(word, title, nextFunc) {
+  currentWord = word;
+  selected = "";
+  onKataBerhasil = nextFunc;
+
+  transition(`
+    <h3 style="font-size: 17px; margin-bottom: 5px;">${title}</h3>
+    <div class="letters" id="letters"></div>
+    <p id="result" style="font-weight:bold; letter-spacing:2px; height:20px; color: #475b96; margin-bottom: 15px;"></p>
+    <button onclick="cekKata()">Cek</button>
+    <button onclick="resetKata()" style="background:#ff6b6b;">Ulang</button>
+  `);
+  setTimeout(renderLetters, 300);
+}
+
+function renderLetters() {
+  const container = document.getElementById("letters");
+  container.innerHTML = ""; // Bersihkan kontainer
+  currentWord.split("").sort(() => Math.random() - 0.5).forEach(l => {
+    const d = document.createElement("div");
+    d.className = "letter";
+    d.innerText = l;
+    d.onclick = () => {
+      selected += l;
+      d.style.visibility = "hidden";
+      document.getElementById("result").innerText = selected;
+    };
+    container.appendChild(d);
+  });
+}
+
+function resetKata() {
+  selected = "";
+  document.getElementById("result").innerText = "";
+  renderLetters();
+}
+
+function cekKata() {
+  if(selected === currentWord) {
+    onKataBerhasil();
+  } else {
+    alert("Salah... coba lagi ya 🥺");
+    resetKata();
+  }
+}
+
+/* ROMANTIC / SAD FLOW */
+function romanticScene(){
+  const texts=[
+"Buat Cissa, dari Stev...",
+"Cissa... aku tau, mungkin kata maaf udah terlalu sering Stev ucapin.",
+"Dan Stev sadar, maaf aja nggak bakal cukup buat narik balik semua lukanya.",
+"Mungkin saat ini Cissa udah capek... udah kecewa banget sama Stev.",
+"Stev ngerasa gagal. Gagal jaga senyum Monacissa Adisty, orang yang paling Stev sayang.",
+
+"Sejak Cissa ngejauh dan marah, semuanya bener-bener kerasa berantakan.",
+"Hariku kerasa berat, dan dunia kerasa sepi banget.",
+"Nggak ada lagi notif dari Cissa yang selalu Stev tungguin tiap hari.",
+"Nggak ada lagi cerita-cerita random yang biasanya bikin Stev tenang.",
+
+"Ternyata... ngeliat Cissa marah dan diem kayak gini...",
+"Jauh lebih nyakitin daripada apapun.",
+"Stev baru sadar seberapa bergantungnya Stev sama Cissa.",
+"Stev kehilangan arah, kehilangan rumah tempat hatiku biasa pulang.",
+
+"Stev kangen cerewetnya Cissa.",
+"Kangen manjanya Cissa.",
+"Kangen tawa kecil Cissa yang selalu bisa ngilangin capekku.",
+"Kangen semua hal sederhana dari kamu yang ternyata sedalem itu artinya buat Stev.",
+
+"Maafin Stev ya sayang... Stev udah egois.",
+"Maaf Stev sering kurang peka, sering bikin Cissa ngerasa kalau kamu nggak penting.",
+"Padahal asal Cissa tau, di mataku kamu itu segalanya.",
+"Stev nggak bisa dan nggak mau ngebayangin gimana jadinya hidupku tanpa Cissa.",
+
+"Stev tau ngebangun balik kepercayaan Cissa itu nggak gampang.",
+"Stev tau Stev nggak sempurna dan sering bikin kamu lelah.",
+"Tapi tolong... kasih Stev satu kesempatan lagi buat nebus semuanya.",
+"Stev nggak mau kita berakhir jadi dua orang asing yang cuma nyimpen kenangan.",
+
+"Stev pengen Monacissa Adisty tetep jadi masa depanku.",
+"Stev janji bakal belajar nekan egoku.",
+"Stev janji bakal berusaha jauh lebih baik buat ngertiin Cissa.",
+"Stev janji bakal jaga Cissa lebih erat lagi.",
+
+"Tolong... jangan nyerah sama kita ya?",
+"Stev sayang banget sama Cissa. Sayang banget.",
+"Kalau Cissa masih mau ngasih ruang di hati buat Stev...",
+"Stev cuma pengen nanya satu hal dari lubuk hati yang paling dalem..."
+];
+
+  let i=0;
+  let isTyping=false;
+
+  transition(`
+    <div id="romanticBox" style="min-height: 140px; display:flex; align-items:center; justify-content:center;"></div>
+    <button id="nextBtn" class="pulse-btn" onclick="nextRomantic()" style="display:none; margin-top:10px;">Lanjut 🥀</button>
+  `);
+
+  window.nextRomantic=function(){
+    if(isTyping) return; 
+    const box=document.getElementById("romanticBox");
+    const btn=document.getElementById("nextBtn");
+
+    if(i<texts.length){
+      isTyping = true;
+      btn.style.display = "none"; 
+      
+      box.innerHTML=`<div class="romantic-text typing-cursor" id="typeText"></div>`;
+      const textElement = document.getElementById("typeText");
+      const currentText = texts[i];
+      let charIndex = 0;
+      
+      const typingSpeed = 35; 
+
+      const typeInterval = setInterval(() => {
+        textElement.innerText = currentText.substring(0, charIndex + 1);
+        charIndex++;
+
+        if(charIndex >= currentText.length) {
+          clearInterval(typeInterval);
+          isTyping = false;
+          textElement.classList.remove("typing-cursor"); 
+          btn.style.display = "inline-block"; 
+          i++;
+        }
+      }, typingSpeed);
+
+    }else{
+      countdownScene();
+    }
+  }
+
+  setTimeout(()=>nextRomantic(),400);
+}
+
+/* COUNTDOWN */
+function countdownScene(){
+  let count=3;
+  transition(`<h2 id="count">${count}</h2>`);
+  const interval=setInterval(()=>{
+    count--;
+    if(count>0){
+      document.getElementById("count").innerText=count;
+    }else{
+      clearInterval(interval);
+      valentineScene();
+    }
+  },1000);
+}
+
+/* MAAFIN SCENE */
+function valentineScene(){
+  transition(`
+    <h2 style="font-size:20px;">Cissa mau maafin Stev? 🥺</h2>
+    <div class="valentine-buttons">
+      <button onclick="yesAnswer()" style="background:#2ecc71;">Maafin ❤️</button>
+      <button id="noBtn" onmouseover="moveNo()">Engga</button>
+    </div>
+  `);
+}
+
+function moveNo(){
+  const btn=document.getElementById("noBtn");
+  btn.style.top=Math.random()*70+"px";
+  btn.style.left=Math.random()*180+"px";
+}
+
+function yesAnswer(){
+  for(let i=0;i<40;i++){
+    const c=document.createElement("div");
+    c.className="glow";
+    c.style.left=Math.random()*100+"vw";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+  setTimeout(showTelegram,1500);
+}
+
+/* TELEGRAM (DENGAN TRIK AUTO-COPY) */
+function showTelegram(){
+  transition(`
+    <h3 style="font-size:18px; margin-bottom:10px;">Makasih Monacissa Adisty udah mau maafin Stev 😭❤️</h3>
+    <p style="font-size:14px; color:#555;">Kirim jawaban Cissa ke Telegram Stev ya biar kita bisa mulai lagi.</p>
+    <p style="font-size:12px; color:#888;">(Masukin username Telegram Stev tanpa @)</p>
+    <input id="tg" placeholder="username_stev">
+    <br><br>
+    <button class="pulse-btn" onclick="sendTelegram()">Kirim Pesan 💌</button>
+    <p id="warn" style="color:#ff6b6b; font-size:13px; margin-top:12px; font-weight:bold;"></p>
+  `);
+}
+
+function sendTelegram(){
+  let username = document.getElementById("tg").value.trim();
+  
+  if(username === ""){
+    document.getElementById("warn").innerText="Isi username nya dulu ya 🥺";
+    return;
+  }
+  
+  username = username.replace(/^@/, "");
+  const msg = "Stev, Cissa udah maafin kamu. Kita mulai dari awal lagi ya sayang ❤️";
+  
+  // Trik Auto-Copy ke Clipboard HP
+  navigator.clipboard.writeText(msg).then(() => {
+    document.getElementById("warn").style.color = "#2ecc71";
+    document.getElementById("warn").innerText = "Teks dicopy otomatis! Tinggal PASTE/TEMPEL di kolom chat ya ❤️";
+    
+    // Kasih jeda 2 detik biar dia baca teks sukses di atas, baru arahin ke Telegram
+    setTimeout(() => {
+        window.location.href = `https://t.me/${username}`;
+    }, 2000);
+  }).catch(() => {
+    // Kalau HP nya ga support auto-copy (fallback)
+    window.location.href = `https://t.me/${username}`;
+  });
+}
+
+</script>
+</body>
+</html>
+
